@@ -22,6 +22,11 @@ public class JSONParser {
     private static final String TAG_DESCRIPTION = "description";
     private static final String TAG_IMG_URL = "imageHref";
 
+    /**
+     * Json parsing
+     * @param response
+     * @return
+     */
     public static CountryModel parseJsonResponse(String response)
     {
         CountryModel countryModel = new CountryModel();
@@ -35,7 +40,6 @@ public class JSONParser {
             String parsedResponse = "";
 
             ArrayList<CountryDetailsModel> rows = new ArrayList<CountryDetailsModel>();
-            //reading the response
             for(int i=0; i<countryItemsJSON.length(); i++)
             {
                 JSONObject item = countryItemsJSON.getJSONObject(i);
@@ -56,8 +60,6 @@ public class JSONParser {
                 else
                     countryDetails.setImageHref(item.getString(TAG_IMG_URL));
 
-
-                // add the item to the list only data available
                 if (countryDetails.getTitle() != null || countryDetails.getDescription() != null
                         || countryDetails.getImageHref() != null) {
                     rows.add(countryDetails);

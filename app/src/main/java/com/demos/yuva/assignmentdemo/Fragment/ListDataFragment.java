@@ -22,6 +22,10 @@ import com.demos.yuva.assignmentdemo.model.CountryModel;
 
 import java.util.ArrayList;
 
+/**
+ * ListDataFragment is a Fragment which is used to show the
+ * list of our data using recycler view.
+ */
 
 
 public class ListDataFragment extends Fragment {
@@ -37,33 +41,34 @@ public class ListDataFragment extends Fragment {
     ArrayList<CountryDetailsModel> details = new ArrayList<CountryDetailsModel>();
 
     public ListDataFragment() {
-        // Required empty public constructor
         super();
     }
 
-
+    /**
+     *Creating the View and initialising the adapter for recyclerview
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_list_data, container, false);
 
+        View layout = inflater.inflate(R.layout.fragment_list_data, container, false);
         mcontext = getActivity();
         mRecyclerview = (RecyclerView)layout.findViewById(R.id.recycler);
         progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
-
         mRecyclerview.setHasFixedSize(true);
-
-        // Setting a linear layout manager to RecyclerView
         mLayoutManager = new LinearLayoutManager(mcontext);
         mRecyclerview.setLayoutManager(mLayoutManager);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.swipeContainer);
-        // specifying an adapter to set the data.
         adapter = new DetailsListAdapter(mcontext);
 
         return layout;
     }
+
+    /**
+     * @param savedInstanceState
+     * Setting the adapter to the recyclerview and logic for progressbar for refresh
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -79,9 +84,11 @@ public class ListDataFragment extends Fragment {
         });
 
         fetchCountryDetails();
-
     }
 
+    /**
+     * Fetching data using AsyncTask
+     */
     public void fetchCountryDetails(){
 
         CountryDetailsAsyncTask fetchData = new CountryDetailsAsyncTask(mcontext) {
@@ -111,6 +118,10 @@ public class ListDataFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 
+    /**
+     * Logic to show loading bar
+     * @param show
+     */
     private void showLoadingBar(boolean show) {
 
         if(show){

@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by Yuva_Dondapati on 1/24/2017.
+ * DetailsListAdapter is a recyclerview adapter for managing the data of recyclerview
  */
 
 public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.ViewHolder> {
@@ -41,21 +42,21 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
     //Create new views
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Inflate the custom layout
         View view = layoutInflater.inflate(R.layout.list_item, parent, false);
-
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
-    //Replace the contents of a view
+    /**
+     * Replace the contents of a view
+     *Set item views based on your views and data model
+     */
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        // Get the data model based on position
         CountryDetailsModel details = list.get(position);
 
-        // Set item views based on your views and data model
         if(details != null) {
 
             String title = details.getTitle();
@@ -74,7 +75,6 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
 
 
             if(!TextUtils.isEmpty(imageHREF)){
-                //Loading image using picasso library.
                 Picasso
                         .with(mcontext)
                         .load(imageHREF)

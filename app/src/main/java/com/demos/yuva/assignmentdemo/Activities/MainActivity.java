@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.demos.yuva.assignmentdemo.Fragment.ListDataFragment;
 import com.demos.yuva.assignmentdemo.R;
 
+/**
+ * main activity
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -19,21 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState == null)
         {
-          //Setting the Fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
             Fragment fragment = new ListDataFragment();
-            //add the fragment to the layout container
             fragmentTransaction.add(R.id.container, fragment);
-            //commit the transaction
             fragmentTransaction.commit();
-
         }
 
     }
-
-
-
 
 }

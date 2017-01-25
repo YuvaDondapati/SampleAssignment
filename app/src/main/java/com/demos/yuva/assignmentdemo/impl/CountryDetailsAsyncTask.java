@@ -16,7 +16,9 @@ import java.net.URL;
 
 /**
  * Created by Yuva_Dondapati on 1/24/2017.
+ * CountryDetailsAsyncTask is a asynctask which runs in background and fetch the data
  */
+
 
 public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, CountryModel> implements OnTaskCompletedListener
 {
@@ -33,30 +35,19 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
     public static final int READ_TIMEOUT = 15000;
 
 
-    //ProgressDialog dialog;
-
     public CountryDetailsAsyncTask(Context context)
     {
         mcontext = context;
-       // dialog = new ProgressDialog(context);
     }
     @Override
     protected void onPostExecute(CountryModel result) {
         super.onPostExecute(result);
-
-     /*   if(dialog.isShowing())
-            dialog.dismiss();*/
-
         postCountryResponseData(result);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
-     /*   dialog.setMessage("Loading...");
-        dialog.setCancelable(false);
-        dialog.show();*/
     }
 
     @Override
@@ -68,10 +59,15 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
         return countryModel;
     }
 
+    /**
+     * getting the response from json url
+     * Setup HttpURLConnection class to send and receive data from php and mysql
+     * @return
+     */
+
     public String getResponse() {
         json_url ="https://dl.dropboxusercontent.com/u/746330/facts.json";
 
-        //call to json url
         try {
             url = new URL(json_url);
         } catch (MalformedURLException e) {
@@ -79,13 +75,11 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
             return e.toString();
         }
 
-        // Setup HttpURLConnection class to send and receive data from php and mysql
         try {
             connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             connection.setRequestMethod("GET");
-            //set to true , as we receuive data from json
             connection.setDoOutput(true);
             connection.connect();
 
@@ -96,10 +90,7 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
         try
         {
             int response_code = connection.getResponseCode();
-            // Check if successful connection made
             if (response_code == HttpURLConnection.HTTP_OK) {
-
-                // Read data sent from server
                 InputStream is = connection.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
                 StringBuilder result = new StringBuilder();
@@ -108,7 +99,6 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
-                //pass the data to onPostExecute method
                 return (result.toString());
             }
             else
