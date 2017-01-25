@@ -2,16 +2,18 @@ package com.demos.yuva.assignmentdemo.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.demos.yuva.assignmentdemo.ListDataFragment;
 import com.demos.yuva.assignmentdemo.R;
 import com.demos.yuva.assignmentdemo.model.CountryDetailsModel;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,66 +22,89 @@ import java.util.List;
 
 public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.ViewHolder> {
 
-    private List<CountryDetailsModel> mdetails;
+    private static final String EMPTY_STRING = "";
+    private ArrayList<CountryDetailsModel> list = new ArrayList<CountryDetailsModel>();
     private Context mcontext;
+    private LayoutInflater layoutInflater;
 
-    public DetailsListAdapter(Context context, List<CountryDetailsModel> details)
+    public DetailsListAdapter(Context mcontext)
     {
-     mcontext = context;
-        mdetails = details;
+        this.mcontext = mcontext;
+        layoutInflater = LayoutInflater.from(mcontext);
     }
 
+    public void setCategoriesInfo(ArrayList<CountryDetailsModel> categories){
+        this.list = categories;
+        notifyDataSetChanged();
+    }
 
-
+    //Create new views
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
         // Inflate the custom layout
-        View view = inflater.inflate(R.layout.list_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.list_item, parent, false);
 
-        //View contactView = inflater.inflate(R.layout.item_contact, parent, false);
-
-        // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
+    //Replace the contents of a view
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         // Get the data model based on position
-        CountryDetailsModel details = mdetails.get(position);
+        CountryDetailsModel details = list.get(position);
 
         // Set item views based on your views and data model
-        TextView textView1 = holder.titletv;
-        System.out.println("******in adapter *****"+details.getTitle());
-        textView1.setText(details.getTitle());
+        if(details != null) {
 
-        TextView textView2 = holder.descriptiontv;
-        textView2.setText(details.getDescription());
+            String title = details.getTitle();
+            String description = details.getDescription();
+            String imageHREF = details.getImageHref();
 
-        TextView textView3 = holder.imagetv;
-        textView3.setText(details.getImageHref());
+            if(!TextUtils.isEmpty(title))
+                holder.titletv.setText(title);
+            else
+                holder.titletv.setText(EMPTY_STRING);
 
+            if(!TextUtils.isEmpty(description))
+                holder.descriptiontv.setText(description);
+            else
+                holder.descriptiontv.setText(EMPTY_STRING);
+
+
+            if(!TextUtils.isEmpty(imageHREF)){
+                //Loading image using picasso library.
+                Picasso
+                        .with(mcontext)
+                        .load(imageHREF)
+                        .into(holder.imageView);
+
+            }
+        }
     }
-
+    // Return the size of dataset
     @Override
     public int getItemCount() {
-        return mdetails.size();
+        return list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titletv, descriptiontv, imagetv;
+        public TextView titletv, descriptiontv;
+        public ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titletv = (TextView)itemView.findViewById(R.id.title);
             descriptiontv = (TextView)itemView.findViewById(R.id.description);
-            imagetv = (TextView)itemView.findViewById(R.id.imageee);
+            imageView = (ImageView)itemView.findViewById(R.id.category_image);
 
         }
     }
+
+    public void clear(){
+        list.clear();
+        notifyDataSetChanged();
+    }
+
 }

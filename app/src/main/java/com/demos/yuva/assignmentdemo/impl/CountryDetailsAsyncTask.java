@@ -1,7 +1,5 @@
 package com.demos.yuva.assignmentdemo.impl;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +63,7 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
     protected CountryModel doInBackground(Void... params) {
 
         String response  = getResponse();
+        //parsing the json response
         CountryModel countryModel = JSONParser.parseJsonResponse(response);
         return countryModel;
     }
@@ -72,16 +71,16 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
     public String getResponse() {
         json_url ="https://dl.dropboxusercontent.com/u/746330/facts.json";
 
+        //call to json url
         try {
-            //call to json url
             url = new URL(json_url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return e.toString();
         }
 
+        // Setup HttpURLConnection class to send and receive data from php and mysql
         try {
-            // Setup HttpURLConnection class to send and receive data from php and mysql
             connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
@@ -97,7 +96,6 @@ public abstract class CountryDetailsAsyncTask extends AsyncTask<Void, Void, Coun
         try
         {
             int response_code = connection.getResponseCode();
-
             // Check if successful connection made
             if (response_code == HttpURLConnection.HTTP_OK) {
 
