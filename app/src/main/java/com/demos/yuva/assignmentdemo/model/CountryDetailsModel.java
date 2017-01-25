@@ -9,11 +9,7 @@ public class CountryDetailsModel {
     private String description;
     private String imageHref;
 
-    public CountryDetailsModel(String title, String description, String imageHref) {
-        this.title = title;
-        this.description = description;
-        this.imageHref = imageHref;
-    }
+
 
     public String getTitle() {
         return title;
@@ -37,5 +33,9 @@ public class CountryDetailsModel {
 
     public void setImageHref(String imageHref) {
         this.imageHref = imageHref;
+    }
+
+    public String getString(){
+        return title+" , "+description+" , " +imageHref;
     }
 }
